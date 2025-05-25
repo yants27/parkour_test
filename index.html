@@ -1,0 +1,233 @@
+/* parkour text */
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <title>跑酷遊戲 - 火柴人版</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: sans-serif;
+            background: skyblue; /* 備用背景色 */
+        }
+
+        #game {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background-image: url("https://i.meee.com.tw/ZmTLcli.jpeg"); /* 遊戲背景圖 */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        /* 新增的跑道 */
+        #ground {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px; /* 跑道高度，您可以調整 */
+            background-color: #8B4513; /* 跑道顏色，棕色 */
+            z-index: 1; /* 確保跑道在角色和障礙物下方 */
+        }
+
+        #player {
+            position: absolute;
+            /* 火柴人的顯示尺寸，可以根據您的喜好調整 */
+            width: 80px;  /* 火柴人顯示寬度 */
+            height: 100px; /* 火柴人顯示高度 */
+            
+            /* 將火柴人跑步 GIF 設置為背景圖片 */
+            background-image: url('https://s1.aigei.com/src/img/gif/66/66ab80d0ae6f46888370c5eddf3f469d.gif?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:TWqR2b6zOBy7v9Vf_rMiOSfUjK0=');
+            background-size: contain; /* 讓 GIF 適應 #player 容器大小 */
+            background-repeat: no-repeat;
+            background-position: center bottom; /* 讓火柴人貼近容器底部 */
+            
+            bottom: 50px; /* 位於跑道上方 (跑道高度 50px) */
+            left: 100px;
+            z-index: 2; /* 確保角色在跑道上方 */
+            
+            /* 由於是 GIF，它會自動播放動畫，所以無需 CSS animation 屬性 */
+        }
+
+        /* 移除原有的 @keyframes runAnimation，因為 GIF 會自動播放 */
+        /* @keyframes runAnimation { ... } */
+
+        /* 對於跳躍動畫，目前會保持跑步 GIF 往上跳。 */
+        /* 如果您有單獨的跳躍圖片或 GIF，請將其設置在這裡的 background-image */
+        #player.jump {
+            /* 例如：background-image: url('YOUR_STICKMAN_JUMP_IMAGE_URL'); */
+            /* background-size: contain; */
+            /* background-repeat: no-repeat; */
+            /* background-position: center bottom; */
+        }
+
+        #obstacle {
+            position: absolute;
+            width: 40px;
+            height: 60px;
+            bottom: 50px; /* 位於跑道上方 */
+            background: black; /* 障礙物顏色 */
+            right: 0;
+            z-index: 2; /* 確保障礙物在跑道上方 */
+        }
+
+        #scoreboard {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            color: white;
+            text-shadow: 1px 1px 3px #000;
+            user-select: none;
+            z-index: 10;
+        }
+
+        #game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            color: white;
+            display: none;
+            text-shadow: 2px 2px 4px #000;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div id="game">
+        <div id="ground"></div>
+        <div id="player"></div>
+        <div id="obstacle"></div>
+        <div id="scoreboard">分數：0</div>
+        <div id="game-over">遊戲結束</div>
+    </div>
+
+    <script>
+        const player = document.getElementById('player');
+        const obstacle = document.getElementById('obstacle');
+        const gameOver = document.getElementById('game-over');
+        const scoreboard = document.getElementById('scoreboard');
+        const groundHeight = 50; // 跑道的高度，與 CSS 中的 #ground 高度一致
+
+        // 跳躍物理參數
+        const jumpHeight = 150;     // 最高跳躍高度 (px)
+        const totalJumpTime = 600;  // 跳躍總時間 (ms)
+
+        const g = 8 * jumpHeight / (totalJumpTime * totalJumpTime);
+        const v0 = g * totalJumpTime / 2;
+
+        let isJumping = false;
+        let startTime = null;
+
+        function jump(timestamp) {
+            if (!startTime) {
+                startTime = timestamp;
+                player.classList.add('jump'); // 跳躍時加上 jump class
+            }
+            const elapsed = timestamp - startTime;
+
+            if (elapsed > totalJumpTime) {
+                player.style.bottom = groundHeight + 'px'; // 確保回到地面高度
+                player.classList.remove('jump'); // 移除 jump class
+                isJumping = false;
+                startTime = null;
+                return;
+            }
+
+            const t = elapsed;
+            const height = v0 * t - 0.5 * g * t * t; // 垂直位移公式
+            player.style.bottom = groundHeight + height + 'px'; // 加上跑道高度
+
+            requestAnimationFrame(jump);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && !isJumping && !gameOverFlag) {
+                isJumping = true;
+                startTime = null;
+                requestAnimationFrame(jump);
+            }
+        });
+
+        // 背景障礙物控制（JavaScript移動）
+        const gameWidth = window.innerWidth;
+        const obstacleWidth = 40;
+
+        let obstacleX = gameWidth;
+        let obstacleSpeed = 0.5;
+        const accelerationInterval = 10000;
+        const speedIncrease = 0.1;
+        const maxSpeed = 1.5;
+
+        let lastFrameTime = null;
+        let gameOverFlag = false;
+
+        let score = 0;
+
+        function moveObstacle(timestamp) {
+            if (!lastFrameTime) lastFrameTime = timestamp;
+            const deltaTime = timestamp - lastFrameTime;
+            lastFrameTime = timestamp;
+
+            obstacleX -= obstacleSpeed * deltaTime;
+
+            if (obstacleX < -obstacleWidth) {
+                obstacleX = gameWidth;
+                if (!gameOverFlag) {
+                    score++;
+                    scoreboard.textContent = '分數：' + score;
+                }
+            }
+
+            obstacle.style.left = obstacleX + 'px';
+
+            if (!gameOverFlag) {
+                requestAnimationFrame(moveObstacle);
+            }
+        }
+
+        function increaseSpeed() {
+            obstacleSpeed += speedIncrease;
+            if (obstacleSpeed > maxSpeed) {
+                obstacleSpeed = maxSpeed;
+            }
+            console.log("Speed increased to: " + obstacleSpeed.toFixed(2));
+        }
+
+        setInterval(() => {
+            if (!gameOverFlag) {
+                increaseSpeed();
+            }
+        }, accelerationInterval);
+
+        function checkCollision() {
+            const obstacleRect = obstacle.getBoundingClientRect();
+            const playerRect = player.getBoundingClientRect();
+
+            if (
+                obstacleRect.left < playerRect.right &&
+                obstacleRect.right > playerRect.left &&
+                obstacleRect.top < playerRect.bottom &&
+                obstacleRect.bottom > playerRect.top
+            ) {
+                gameOverFlag = true;
+                gameOver.style.display = 'block';
+                player.style.animationPlayState = 'paused'; // 停止火柴人動畫
+            }
+        }
+
+        setInterval(() => {
+            if (!gameOverFlag) checkCollision();
+        }, 1000 / 60);
+
+        requestAnimationFrame(moveObstacle);
+    </script>
+</body>
+</html>
