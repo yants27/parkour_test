@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8" />
-    <title>跑酷遊戲 - 火柴人版</title>
+    <title>test</title>
     <style>
         body {
             margin: 0;
@@ -15,7 +15,8 @@
             position: relative;
             width: 100vw;
             height: 100vh;
-            background-image: url("https://i.meee.com.tw/ZmTLcli.jpeg"); /* 遊戲背景圖 */
+            /* ***** 背景圖片已更新為 'background.jpg' ***** */
+            background-image: url("background.jpg"); /* 遊戲背景圖 */
             background-size: cover; /* 圖片覆蓋整個容器，保持比例 */
             background-repeat: no-repeat; /* 不重複 */
             background-position: center; /* 圖片在容器中居中顯示 */
@@ -36,20 +37,18 @@
 
         #player {
             position: absolute;
-            /* ***** 請根據 charactor.gif 的實際尺寸調整寬度和高度 ***** */
             width: 80px;  
             height: 100px; 
             
-            /* ***** 角色圖片已更新為 'charactor.gif' ***** */
             background-image: url('charactor.gif'); 
             
-            background-size: contain; /* 確保 GIF 完整顯示在指定寬高內 */
-            background-repeat: no-repeat; /* GIF 本身已是動畫，不需要重複背景 */
+            background-size: contain; 
+            background-repeat: no-repeat; 
             background-position: center bottom;
             
-            bottom: 30px; /* 角色底部距離遊戲底部 30px */
+            bottom: 30px; 
             left: 100px;
-            z-index: 2; /* 比地面高 */
+            z-index: 2; 
         }
 
         #player.jump {
@@ -142,7 +141,7 @@
         const groundElement = document.getElementById('ground');
         const restartButton = document.getElementById('restartButton');
 
-        const groundHeight = 30; // 角色底部距離遊戲底部的距離
+        const groundHeight = 30; 
         const playerInitialLeft = 100;
 
         const jumpHeight = 250;
