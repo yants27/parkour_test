@@ -39,3 +39,23 @@ Open the index.html file in your browser
 This project is licensed under the MIT License.
 
 All images in this project are generated using generative AI (GenAI) tools.
+
+## Dev Log
+
+### 2025-06-10
+- @shihyousyu forked the original project from [@yants27](https://github.com/yants27/game_test).
+- Rewrote README.md with full game description, usage, and license info.
+- Took over project development from this point onward.
+- added the Dev Log section directly into the README for easier tracking of development progress.
+
+### 2025-06-03
+- [@yants27] created the initial README.md with project title only.
+
+### 2025-05-25 and earlier
+- [@yants27] developed the initial version of the endless runner game.
+- Implemented core features:
+  - Character jump physics
+  - Obstacle spawning and movement
+  - Background and ground scrolling
+  - Collision detection
+  - Score tracking and game restart system
