@@ -17,13 +17,7 @@ A simple side-scrolling runner game made by [@yants27](https://github.com/yants2
 - **Jump**: Press the spacebar or tap anywhere on the screen
 
 ## How to Play
-
-Clone or download the project:
-
-```bash
-git clone https://github.com/yants27/runner-game.git
-```
-Open the index.html file in your browser
+Play on [link](shihyousyu/github.io/game_test)
 
 ## Notes
 * Make sure you have the following image files in the same folder:
