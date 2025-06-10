@@ -1,4 +1,4 @@
-# Platform Runner Game
+# game_test
 
 A simple side-scrolling runner game made by [@yants27](https://github.com/yants27) using only HTML, CSS, and JavaScript. Just open the HTML file in your browser to start playing.
 
