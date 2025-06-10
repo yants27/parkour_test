@@ -36,15 +36,12 @@ All images in this project are generated using generative AI (GenAI) tools.
 
 ## Dev Log
 
-### 2025-06-12
-- @shihyousyu:
-  - Added the Dev Log section directly into the README for easier tracking of development progress.
-
 ### 2025-06-10
 - @shihyousyu:
   - Forked the original project from [@yants27](https://github.com/yants27/game_test).
   - Rewrote README.md with full game description, usage, and license info.
   - Took over project development from this point onward.
+  - Added the Dev Log section directly into the README for easier tracking of development progress.
 
 ### 2025-06-03
 - @yants27:
