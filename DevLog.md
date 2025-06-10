@@ -1,14 +1,20 @@
-# Development Log
+# Dev Log
 
-## Development History
+## 2025-06-10
 
-- Before 2025/05/25: Initial development by [@yants27](https://github.com/yants27) up to current gameplay features.
-- 2025/06/03: `README.md` created by [@yants27](https://github.com/yants27), containing only the project title.
-- 2025/06/10: Forked from [yants27/game_test](https://github.com/yants27/game_test) into this repository.
-- 2025/06/10: New `README.md` written to include game description, features, and license details.
-- 2025/06/10: This `DEVLOG.md` created to track development progress and team contributions.
+- [@shihyousyu] forked the original project from [@yants27](https://github.com/yants27/game_test).
+- Rewrote the `README.md` to include a complete game description, instructions, and license details.
+- Project development continued under [@shihyousyu] from this point onward.
+## 2025-06-03
 
-## Notes
+- [@yants27] added the initial `README.md`, which contained only the project title.
 
-- This project was originally forked from [yants27/game_test](https://github.com/yants27/game_test).
-- If the original repository is deleted, this fork will remain intact with full history.
+## 2025-05-25 and earlier
+
+- [@yants27] developed the first version of the endless runner game.
+- Implemented core gameplay features, including:
+  - Jumping mechanics using simple physics
+  - Obstacle generation and movement
+  - Continuous scrolling for background and ground
+  - Collision detection system
+  - Score display and game restart functionality
